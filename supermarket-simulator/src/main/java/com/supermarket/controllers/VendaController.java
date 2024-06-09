@@ -143,7 +143,9 @@ public class VendaController implements Initializable {
 
     private void calculaValorPago() {
         Random random = new Random();
-        valorPago = random.nextDouble() * 100 + totalVenda;
+        
+
+        valorPago = random.nextDouble() * 30 + totalVenda;
     }
 
     private void calculaTrocoAtual() {
@@ -170,13 +172,14 @@ public class VendaController implements Initializable {
     @FXML
     public void concluir(ActionEvent event) throws Exception {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        for (Produto produto : estoque.getProdutos()) {
-            produto.setQuantidade(produto.getQuantidade() - produto.getQuantidadeAleatoria());
-            estoque.setQuantidadeProdutos(estoque.getQuantidadeProdutos() - produto.getQuantidadeAleatoria());
+        if( valorTrocoAtual >= valorTroco ){
+            for (Produto produto : estoque.getProdutos()) {
+                produto.setQuantidade(produto.getQuantidade() - produto.getQuantidadeAleatoria());
+                estoque.setQuantidadeProdutos(estoque.getQuantidadeProdutos() - produto.getQuantidadeAleatoria());
+            }
+            atualizarSaldo();
+            irMenu(stage);
         }
-        atualizarSaldo();
-        irMenu(stage);
-
     }
 
     private void irMenu(Stage stage) throws Exception {
