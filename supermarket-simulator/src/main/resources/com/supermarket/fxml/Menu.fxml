@@ -2,16 +2,20 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="300.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.supermarket.controllers.MenuController">
-    <center>
-        <VBox alignment="CENTER" spacing="20.0">
-            <Label styleClass="menu-label" text="O que o jogador deseja fazer?" />
-            <Button onAction="#handleVenderButton" text="Vender Produtos" />
-            <Button onAction="#handleReporButton" text="Repor Estoque" />
-            <Button onAction="#handleAlterarPrecosButton" text="Alterar Preços" />
-        </VBox>
-    </center>
-</BorderPane>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.supermarket.controllers.MenuController">
+   <children>
+      <Label alignment="TOP_CENTER" layoutX="98.0" layoutY="97.0" styleClass="menu-label" text="O que o jogador deseja fazer?" textAlignment="CENTER" textFill="#111be1">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="104.0" layoutY="150.0" onAction="#handleVenderButton" text="Vender Produtos" />
+         <Button layoutX="243.0" layoutY="150.0" onAction="#handleReporButton" text="Repor Estoque" />
+         <Button layoutX="370.0" layoutY="150.0" onAction="#handleAlterarPrecosButton" text="Alterar Preços" />
+      <Button layoutX="269.0" layoutY="246.0" mnemonicParsing="false" text="Button" />
+   </children>
+</Pane>

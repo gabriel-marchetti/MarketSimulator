@@ -14,6 +14,6 @@ public class TelaInicialController {
     public void handlePlayButton(ActionEvent event) throws Exception {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/com/supermarket/fxml/Menu.fxml"));
-        stage.setScene(new Scene(root, 500, 300));
+        stage.setScene(new Scene(root, 600, 400));
     }
 }
