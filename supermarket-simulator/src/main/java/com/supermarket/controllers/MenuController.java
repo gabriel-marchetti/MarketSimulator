@@ -89,6 +89,15 @@ public class MenuController implements Initializable{
             */
             EstadoJogo estadoJogo = pagarAluguel();
         }
+
+        /*
+         * Sorteio uma nova variação de inflação específica dos produtos.
+         */
+        List<Produto> produtos = Estoque.getInstance().getProdutos();
+        for( Produto produto : produtos ){
+            produto.sorteiaInflacaoMediaProduto();
+        }
+
         atualizaLabelStatus();
     }
 
@@ -142,7 +151,7 @@ public class MenuController implements Initializable{
         Estoque estoque = Estoque.getInstance();
 
         for( Produto produto : estoque.getProdutos() ){
-            produto.setInflacao( 1.0 + inflacao);
+            produto.setInflacaoTotal( 1.0 + inflacao);
         }
     }
 }

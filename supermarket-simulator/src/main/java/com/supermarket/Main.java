@@ -28,7 +28,7 @@ public class Main extends Application {
         Produto prod1 = new Produto("Arroz", 10.0, 1.5);
         Produto prod2 = new Produto("Feijão", 5.0, 1.7);
         Produto prod3 = new Produto("Macarrão", 3.0, 1.9);
-        Produto prod4 = new Produto("Açúcar", 4.0, 2.3);
+        Produto prod4 = new Produto("Açúcar", 4.0, 0.9);
         List<Produto> produtos = List.of(prod1, prod2, prod3, prod4);
         estoque.setProdutos(produtos);
 

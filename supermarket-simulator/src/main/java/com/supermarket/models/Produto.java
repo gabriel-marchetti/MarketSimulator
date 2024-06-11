@@ -2,6 +2,7 @@ package com.supermarket.models;
 
 import javafx.beans.property.*;
 import java.text.DecimalFormat;
+import java.util.Random;
 
 public class Produto {
     private final StringProperty nome;
@@ -10,16 +11,29 @@ public class Produto {
     private final IntegerProperty quantidadeAleatoria;
     private final DoubleProperty precoVenda;
     private final DoubleProperty precoSugerido;
+    // Esse atributo irá adicionar complexidade no jogo, uma vez que produtos
+    // com inflacaoMediaProduto negativa irão dar prejuízo.
+    private Double inflacaoMediaProduto;
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
-    public Produto(String nome, double custo, double inflacao) {
+    /**
+     * Nesse construtor temos que nos atentar ao fato de que a inflaçãoMediaProduto
+     * recebe como entrada um valor 1.5, indicando 1.5%. Desse modo, basta dividirmos
+     * dentro do atributo por 100.
+     * 
+     * @param nome
+     * @param custo
+     * @param inflacaoMediaProduto
+     */
+    public Produto(String nome, double custo, double inflacaoMediaProduto) {
         this.nome = new SimpleStringProperty(nome);
         this.custo = new SimpleDoubleProperty(custo);
         this.quantidade = new SimpleIntegerProperty(0);
         this.quantidadeAleatoria = new SimpleIntegerProperty(0);
         this.precoVenda = new SimpleDoubleProperty(custo);
-        this.precoSugerido = new SimpleDoubleProperty(custo * inflacao);
+        this.inflacaoMediaProduto = inflacaoMediaProduto / 100;
+        this.precoSugerido = new SimpleDoubleProperty(custo * (1 + this.inflacaoMediaProduto));
     }
 
     public StringProperty getNomeProperty() {
@@ -86,8 +100,24 @@ public class Produto {
         this.precoSugerido.set(precoSugerido);
     }
 
-    public void setInflacao(Double inflacao) {
-        setPrecoSugerido(getCusto() * inflacao);
+    /*
+     * 
+     * Controles de inflação >>>>>
+     * 
+     */
+
+    public void setInflacaoTotal(Double inflacaoDia) {
+        setPrecoSugerido(getCusto() * (inflacaoDia + this.inflacaoMediaProduto));
+    }
+
+
+    public void sorteiaInflacaoMediaProduto(){
+        Random random = new Random();
+        // Média Gaussiana: this.inflacaoMediaProduto
+        // Desvio: 1
+        Double inflacaoProduto = random.nextGaussian() + this.inflacaoMediaProduto;
+        // Ajustando para valor decimal
+        this.inflacaoMediaProduto = inflacaoProduto / 100;
     }
 
     // Método para retornar o custo formatado com duas casas decimais
