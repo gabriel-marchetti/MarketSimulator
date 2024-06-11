@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -73,7 +75,7 @@ public class VendaController implements Initializable {
     private Double valorTrocoAtual;
 
     Estoque estoque = Estoque.getInstance();
-    TreeItem<Produto> root = new TreeItem<>(new Produto(null, 0, 0, 0));
+    TreeItem<Produto> root = new TreeItem<>(new Produto(null, 0, 0));
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -169,10 +171,18 @@ public class VendaController implements Initializable {
         irMenu(stage);
     }
 
-    @FXML
+   @FXML
     public void concluir(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        if( valorTrocoAtual >= valorTroco ){
+        if (valorTrocoAtual < valorTroco) {
+        // Exiba uma mensagem de erro
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erro de Troco");
+        alert.setHeaderText(null);
+        alert.setContentText("O troco atual é menor que o troco necessário. Não é possível concluir a venda.");
+        alert.showAndWait();
+        } 
+        else{
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             for (Produto produto : estoque.getProdutos()) {
                 produto.setQuantidade(produto.getQuantidade() - produto.getQuantidadeAleatoria());
                 estoque.setQuantidadeProdutos(estoque.getQuantidadeProdutos() - produto.getQuantidadeAleatoria());

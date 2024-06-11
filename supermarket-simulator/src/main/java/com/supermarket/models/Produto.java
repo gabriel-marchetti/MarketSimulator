@@ -13,12 +13,12 @@ public class Produto {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
-    public Produto(String nome, double custo, double precoVenda, double inflacao) {
+    public Produto(String nome, double custo, double inflacao) {
         this.nome = new SimpleStringProperty(nome);
         this.custo = new SimpleDoubleProperty(custo);
         this.quantidade = new SimpleIntegerProperty(0);
         this.quantidadeAleatoria = new SimpleIntegerProperty(0);
-        this.precoVenda = new SimpleDoubleProperty(precoVenda);
+        this.precoVenda = new SimpleDoubleProperty(custo);
         this.precoSugerido = new SimpleDoubleProperty(custo * inflacao);
     }
 
