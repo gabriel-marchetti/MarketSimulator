@@ -3,12 +3,21 @@ package com.supermarket.models;
 import java.util.Random;
 
 public class Dia {
+    private static Dia instancia = null;
     private Double inflacao;
     private Integer diasJogados;
+    private Integer diasNegativos;
 
-    public Dia(){
+    private Dia(){
         diasJogados = 0;
         inflacao = sorteiaInflacao();
+    }
+
+    public static Dia getInstanceDia(){
+        if( instancia == null ){
+            instancia = new Dia();
+        }
+        return instancia;
     }
 
     /**
@@ -37,13 +46,30 @@ public class Dia {
      * Além disso irá sortear uma nova inflação diária. 
      */
     public void passaDia(){
-        this.diasJogados++;
+        this.diasJogados = this.diasJogados + 1;
         this.inflacao = sorteiaInflacao();
     }
 
     /*
      * Setters e getters ---
      */
+
+    public Integer getDiasNegativos(){
+        return this.diasNegativos;
+    }
+
+    public void setDiasNegativos( Integer diasNegativos ){
+        this.diasNegativos = diasNegativos;
+    }
+
+    public void resetDiasNegativos( ){
+        this.diasNegativos = 0;
+    }
+
+    public void increaseDiasNegativos(){
+        this.diasNegativos++;
+    }
+
     public Double getInflacao() {
         return inflacao;
     }
