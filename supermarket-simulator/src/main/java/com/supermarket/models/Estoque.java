@@ -62,11 +62,30 @@ public class Estoque {
         this.saldo = saldo;
     }
 
-    public void venderProduto(){
-        //baseado no valor get quantidade, retorna uma quantidade aleatória
-        for(Produto produto : produtos){
-            Random random = new Random();
-            int quantidadeAleatoria = random.nextInt(produto.getQuantidade() + 1);
+    public boolean estoqueEstaVazio(){
+        return quantidadeProdutos == 0;
+    }
+
+    public boolean estoqueEstaCheio(){
+        return quantidadeProdutos == capacidadeMaxima;
+    }
+
+    public void venderProduto() {
+        Random random = new Random();
+        for (Produto produto : produtos) {
+            double diferencaPreco = produto.getPrecoSugerido() - produto.getPrecoVenda();
+            int quantidadeBase = produto.getQuantidade();
+            int quantidadeAjustada = (int) (quantidadeBase - diferencaPreco);
+
+            // Se a diferença de preço for negativa, aumenta a quantidade
+            if (diferencaPreco < 0) {
+                quantidadeAjustada = (int) (quantidadeBase - (diferencaPreco * -1));
+            }
+
+            // Garante que a quantidade ajustada esteja entre 0 e a quantidade do produto
+            quantidadeAjustada = Math.max(0, Math.min(quantidadeAjustada, quantidadeBase));
+
+            int quantidadeAleatoria = random.nextInt(quantidadeAjustada + 1);
             produto.setQuantidadeAleatoria(quantidadeAleatoria);
         }
     }

@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -52,7 +53,7 @@ public class CompraController implements Initializable {
 
     Estoque estoque = Estoque.getInstance();
 
-    TreeItem<Produto> root = new TreeItem<>(new Produto(null, 0, 0, 0));
+    TreeItem<Produto> root = new TreeItem<>(new Produto(null, 0, 0));
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -169,10 +170,21 @@ public class CompraController implements Initializable {
     }
 
     @FXML
-    public void concluir(ActionEvent event) throws Exception {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        // Implementar lógica para concluir a compra
+public void concluir(ActionEvent event) throws Exception {
+    Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
+    // Calcule a quantidade total de produtos selecionados
+    int quantidadeTotal = quantidadesSelecionadas.values().stream().mapToInt(Integer::intValue).sum();
+
+    // Verifique se a quantidade total excede o limite do estoque
+    if ((quantidadeTotal + estoque.getQuantidadeProdutos()) > estoque.getCapacidadeMaxima().intValue()) {
+        // Exiba uma mensagem de erro
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erro de Estoque");
+        alert.setHeaderText(null);
+        alert.setContentText("A quantidade total de produtos selecionados excede o limite do estoque. Não é possível concluir a compra.");
+        alert.showAndWait();
+    } else {
         // Atualizando a quantidade dos produtos
         for (Map.Entry<Produto, Integer> entry : quantidadesSelecionadas.entrySet()) {
             Produto produto = entry.getKey();
@@ -182,8 +194,8 @@ public class CompraController implements Initializable {
         }
         atualizarSaldo();
         irMenu(stage);
-
     }
+}
 
     private void irMenu(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/supermarket/fxml/Menu.fxml"));
