@@ -145,7 +145,9 @@ public class VendaController implements Initializable {
 
     private void calculaValorPago() {
         Random random = new Random();
-        valorPago = random.nextDouble() * 100 + totalVenda;
+        
+
+        valorPago = random.nextDouble() * 30 + totalVenda;
     }
 
     private void calculaTrocoAtual() {
@@ -169,7 +171,7 @@ public class VendaController implements Initializable {
         irMenu(stage);
     }
 
-    @FXML
+   @FXML
     public void concluir(ActionEvent event) throws Exception {
         if (valorTrocoAtual < valorTroco) {
         // Exiba uma mensagem de erro
