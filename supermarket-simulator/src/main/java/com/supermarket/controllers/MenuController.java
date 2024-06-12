@@ -79,16 +79,23 @@ public class MenuController implements Initializable{
 
     @FXML
     public void passarDiaAction( ActionEvent event ) throws Exception{
+        EstadoJogo estadoJogo;
         Dia.getInstanceDia().passaDia();
         atualizaPrecosInflacao();
         Integer dia = Dia.getInstanceDia().getDiasJogados();
         if( dia % 7 == 0 && dia != 0 ){
-            /* 
-            * TO-DO: Precisamos adicionas o método que reseta o jogo caso o 
-            * jogador perca.
-            */
-            EstadoJogo estadoJogo = pagarAluguel();
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("DIA DO PAGAMENTO.");
+            alert.setHeaderText(null);
+            alert.setContentText("Seu Barriga chegou e quer que você pague.");
+            alert.showAndWait();
+            pagarAluguel();
         }
+        /* 
+        * TO-DO: Precisamos adicionas o método que reseta o jogo caso o 
+        * jogador perca.
+        */
+        
 
         /*
          * Sorteio uma nova variação de inflação específica dos produtos.
@@ -122,24 +129,28 @@ public class MenuController implements Initializable{
      * que ele fique mais dificil. Por conta disso iremos adicionar uma função
      * logaritmica e uma função que tira percentualmente valor da loja.
      */
-    private EstadoJogo pagarAluguel(){
+    private void pagarAluguel(){
         Integer diasJogados = Dia.getInstanceDia().getDiasJogados();
         Double saldoLoja = Estoque.getInstance().getSaldo();
         Double aluguel = Math.log(diasJogados) * 100 + 0.2 * saldoLoja;
 
         Estoque.getInstance().setSaldo( saldoLoja - aluguel );
-        if( saldoLoja - aluguel < 1000 ){
-            return EstadoJogo.PERDEU;
-        }
-        else if( saldoLoja - aluguel < 0 ){
+    }
+
+    /**
+     * Esse método retorna se o jogador perdeu o jogo dada uma entrada de Dia.
+     * @return
+     */
+    private EstadoJogo verificaPerdeu(){
+        if( Estoque.getInstance().getSaldo() < 0 )
             Dia.getInstanceDia().increaseDiasNegativos();
-            if( Dia.getInstanceDia().getDiasJogados() >= 3 )
-                return EstadoJogo.PERDEU;
+
+        if( Dia.getInstanceDia().getDiasNegativos() >= 4 )
+            return EstadoJogo.PERDEU;
+        else if( Estoque.getInstance().getSaldo() <= -1000.0 )
+            return EstadoJogo.PERDEU;
+        else
             return EstadoJogo.CONTINUA;
-        }
-        /* Aqui o Jogador consegue ficar em um dia positivo */
-        Dia.getInstanceDia().resetDiasNegativos();
-        return EstadoJogo.CONTINUA;
     }
 
     /**
