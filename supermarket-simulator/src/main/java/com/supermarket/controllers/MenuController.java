@@ -1,5 +1,6 @@
 package com.supermarket.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -77,6 +78,19 @@ public class MenuController implements Initializable{
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/com/supermarket/fxml/Precos.fxml"));
         stage.setScene(new Scene(root));
+    }
+
+    @FXML
+    public void handleMelhoriasButton(ActionEvent event){
+        try{
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/com/supermarket/fxml/Melhorias.fxml"));
+            stage.setScene(new Scene(root));
+        }
+        catch( IOException e ){
+            System.out.println("Problema abrindo o painel de melhorias");
+            e.getStackTrace();
+        }
     }
 
     @FXML

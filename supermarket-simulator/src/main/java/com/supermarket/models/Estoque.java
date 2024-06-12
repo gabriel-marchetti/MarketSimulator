@@ -3,7 +3,9 @@ package com.supermarket.models;
 import java.util.List;
 import java.util.Random;
 
-public class Estoque {
+import com.supermarket.interfaces.Improvable;
+
+public class Estoque implements Improvable {
     private static Estoque instancia = null;
     private List<Produto> produtos;
     private Integer quantidadeProdutos;
@@ -25,6 +27,10 @@ public class Estoque {
         this.saldo = 1000.0;
         resetListaProdutos();
         this.capacidadeMaxima = 20;
+    }
+
+    public void improve(){
+        this.capacidadeMaxima += 20;
     }
 
     private void resetListaProdutos(){

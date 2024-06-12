@@ -43,5 +43,6 @@
             <Label fx:id="diasNegativos" layoutX="130.0" layoutY="93.0" prefHeight="16.0" prefWidth="64.0" />
          </children>
       </Pane>
+      <Button layoutX="127.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleMelhoriasButton" text="Melhorias" />
    </children>
 </Pane>
