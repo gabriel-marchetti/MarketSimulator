@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.supermarket.models.Estoque;
 import com.supermarket.models.Produto;
-import com.supermarket.exception.FXMLTelaInicialException;
 import com.supermarket.models.Dia;
 
 import javafx.application.Application;

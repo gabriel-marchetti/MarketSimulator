@@ -20,6 +20,19 @@ public class Estoque {
         this.capacidadeMaxima = Integer.MAX_VALUE;
     }
 
+    public void resetEstoque(){
+        this.quantidadeProdutos = 0;
+        this.saldo = 1000.0;
+        resetListaProdutos();
+        this.capacidadeMaxima = 20;
+    }
+
+    private void resetListaProdutos(){
+        for( Produto produto : Estoque.getInstance().getProdutos() ){
+            produto.setQuantidade(0);
+        }
+    }
+
     /**
      * Verifica se a instancia estoque já foi criada, caso não, cria uma nova
      */

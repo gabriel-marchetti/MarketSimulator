@@ -28,6 +28,8 @@ public class MenuController implements Initializable{
     @FXML
     private Label diasJogadosLabel;
     @FXML
+    private Label diasNegativos;
+    @FXML
     private Button passarDiaButton;
 
     private Estoque estoque = Estoque.getInstance();
@@ -95,7 +97,10 @@ public class MenuController implements Initializable{
         * TO-DO: Precisamos adicionas o método que reseta o jogo caso o 
         * jogador perca.
         */
-        
+        estadoJogo = verificaPerdeu();
+        if( estadoJogo == EstadoJogo.PERDEU ){
+            resetJogo();
+        }
 
         /*
          * Sorteio uma nova variação de inflação específica dos produtos.
@@ -117,6 +122,7 @@ public class MenuController implements Initializable{
         diasJogadosLabel.setText(dia.getDiasJogados().toString());
         String valorString = String.format("%.2f", estoque.getSaldo());
         saldoLabel.setText("R$ " + valorString);
+        diasNegativos.setText(dia.getDiasNegativos().toString());
     }
 
     /**
@@ -165,4 +171,18 @@ public class MenuController implements Initializable{
             produto.setInflacaoTotal( 1.0 + inflacao);
         }
     }
+
+    /**
+     * 
+     */
+    private void resetJogo(){
+        Dia.getInstanceDia().resetDia();
+        Estoque.getInstance().resetEstoque();
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("PERDEU");
+        alert.setHeaderText(null);
+        alert.setContentText("Seu supermercado faliu, recomece o jogo.");
+        alert.showAndWait();
+    }
+
 }

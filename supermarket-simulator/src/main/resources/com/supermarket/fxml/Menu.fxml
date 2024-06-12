@@ -35,6 +35,12 @@
             </Label>
             <Label fx:id="saldoLabel" layoutX="70.0" layoutY="37.0" prefHeight="16.0" prefWidth="120.0" />
             <Label fx:id="diasJogadosLabel" layoutX="114.0" layoutY="62.0" prefHeight="16.0" prefWidth="77.0" />
+            <Label layoutX="21.0" layoutY="93.0" text="Dias Negativos:" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="diasNegativos" layoutX="130.0" layoutY="93.0" prefHeight="16.0" prefWidth="64.0" />
          </children>
       </Pane>
    </children>

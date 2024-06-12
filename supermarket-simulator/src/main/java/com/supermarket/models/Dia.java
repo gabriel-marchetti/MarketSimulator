@@ -10,6 +10,7 @@ public class Dia {
 
     private Dia(){
         diasJogados = 0;
+        diasNegativos = 0;
         inflacao = sorteiaInflacao();
     }
 
@@ -18,6 +19,11 @@ public class Dia {
             instancia = new Dia();
         }
         return instancia;
+    }
+
+    public void resetDia(){
+        this.diasJogados = 0;
+        this.diasNegativos = 0;
     }
 
     /**
