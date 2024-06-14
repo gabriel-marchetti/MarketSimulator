@@ -1,9 +1,8 @@
 package com.supermarket;
 
-import java.util.List;
 
+import com.supermarket.leitura.LerProdutos;
 import com.supermarket.models.Estoque;
-import com.supermarket.models.Produto;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,12 +23,8 @@ public class Main extends Application {
         Estoque estoque = Estoque.getInstance();
         estoque.setCapacidadeMaxima(20);
         
-        Produto prod1 = new Produto("Arroz", 10.0, 1.5);
-        Produto prod2 = new Produto("Feijão", 5.0, 1.7);
-        Produto prod3 = new Produto("Macarrão", 3.0, 1.9);
-        Produto prod4 = new Produto("Açúcar", 4.0, 2.3);
-        List<Produto> produtos = List.of(prod1, prod2, prod3, prod4);
-        estoque.setProdutos(produtos);
+        LerProdutos leitura = new LerProdutos();
+        leitura.LerArquivo(estoque, "produtos.xml");
 
         
         launch(args);

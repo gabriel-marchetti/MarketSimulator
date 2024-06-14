@@ -3,6 +3,7 @@ module com.supermarket {
     requires javafx.fxml;
     requires transitive javafx.graphics;
     requires javafx.base;
+    requires java.xml;
 
     opens com.supermarket to javafx.fxml;
 
