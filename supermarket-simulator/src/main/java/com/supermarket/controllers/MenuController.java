@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.supermarket.models.Dia;
 import com.supermarket.models.EstadoJogo;
 import com.supermarket.models.Estoque;
+import com.supermarket.models.Inspetor;
 import com.supermarket.models.Produto;
 
 import javafx.event.ActionEvent;
@@ -35,6 +36,7 @@ public class MenuController implements Initializable{
 
     private Estoque estoque = Estoque.getInstance();
     private Dia dia = Dia.getInstanceDia();
+    private Boolean temGeladeira = false;
 
     @FXML
     public void handleVenderButton(ActionEvent event) throws Exception {
@@ -99,6 +101,10 @@ public class MenuController implements Initializable{
         Dia.getInstanceDia().passaDia();
         atualizaPrecosInflacao();
         Integer dia = Dia.getInstanceDia().getDiasJogados();
+        /**
+         * Aqui temos a função que verifica o dia do pagamento. No caso queremos
+         * dias divisíveis por 7.
+         */
         if( dia % 7 == 0 && dia != 0 ){
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("DIA DO PAGAMENTO.");
@@ -107,6 +113,25 @@ public class MenuController implements Initializable{
             alert.showAndWait();
             pagarAluguel();
         }
+         /**
+         * Aqui verificaremos se neste dia haverá inspeção de Eric Jackin
+         */
+        if (Inspetor.temInspecao()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("INSPETOR CHEGOU!");
+            alert.setHeaderText(null);
+            alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
+            alert.showAndWait();
+            if (temGeladeira.equals(false)) {
+                alert.setTitle("DONDE ESTÁ LA FREEZER?");
+                alert.setHeaderText(null);
+                alert.setContentText("ÉS LA VERGOIN DE LA PROFISSIÓN!");
+                alert.showAndWait();
+                Estoque.getInstance().pagar(503.0);
+            }
+        }
+
+
         /* 
         * TO-DO: Precisamos adicionas o método que reseta o jogo caso o 
         * jogador perca.
@@ -152,6 +177,7 @@ public class MenuController implements Initializable{
     private void pagarAluguel(){
         Integer diasJogados = Dia.getInstanceDia().getDiasJogados();
         Double saldoLoja = Estoque.getInstance().getSaldo();
+        
         Double aluguel = Math.log(diasJogados) * 100 + 0.2 * saldoLoja;
 
         Estoque.getInstance().setSaldo( saldoLoja - aluguel );
