@@ -44,7 +44,7 @@ public class PrecosController implements Initializable {
 
     Estoque estoque = Estoque.getInstance();
 
-    TreeItem<Produto> root = new TreeItem<>(new Produto(null, 0, 0, 0));
+    TreeItem<Produto> root = new TreeItem<>(new Produto(null, 0, 0));
 
     // Mapa para armazenar temporariamente os valores inseridos pelo usuário na
     // colunaPrecoNovo
