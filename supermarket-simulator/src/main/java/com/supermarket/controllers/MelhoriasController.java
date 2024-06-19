@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.supermarket.models.EquipamentosLoja;
 import com.supermarket.models.Estoque;
 
 import javafx.event.ActionEvent;
@@ -12,8 +13,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class MelhoriasController implements Initializable {
@@ -48,6 +51,16 @@ public class MelhoriasController implements Initializable {
         Double saldoAtual = Estoque.getInstance().getSaldo(),
                precoMelhoria = 100.0;
         Estoque.getInstance().setSaldo(saldoAtual - precoMelhoria );
+        atualizaLabels();
+    }
+
+    @FXML
+    private void handleComprarGeladeira(ActionEvent event){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setHeaderText("Parabéns pela aquisição.");
+        alert.setContentText("Você comprou uma geladeira");
+        alert.showAndWait();
+        EquipamentosLoja.compraGeladeira();
         atualizaLabels();
     }
 

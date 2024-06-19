@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.supermarket.models.Dia;
+import com.supermarket.models.EquipamentosLoja;
 import com.supermarket.models.EstadoJogo;
 import com.supermarket.models.Estoque;
 import com.supermarket.models.Inspetor;
@@ -33,10 +34,11 @@ public class MenuController implements Initializable{
     private Label diasNegativos;
     @FXML
     private Button passarDiaButton;
+    @FXML
+    private Label clientesDia;
 
     private Estoque estoque = Estoque.getInstance();
     private Dia dia = Dia.getInstanceDia();
-    private Boolean temGeladeira = false;
 
     @FXML
     public void handleVenderButton(ActionEvent event) throws Exception {
@@ -122,12 +124,12 @@ public class MenuController implements Initializable{
             alert.setHeaderText(null);
             alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
             alert.showAndWait();
-            if (temGeladeira.equals(false)) {
+            if (EquipamentosLoja.verificaGeladeira().equals(false)) {
                 alert.setTitle("DONDE ESTÁ LA FREEZER?");
                 alert.setHeaderText(null);
                 alert.setContentText("ÉS LA VERGOIN DE LA PROFISSIÓN!");
                 alert.showAndWait();
-                Estoque.getInstance().pagar(503.0);
+                Estoque.getInstance().pagar(500.0);
             }
         }
 
@@ -162,6 +164,7 @@ public class MenuController implements Initializable{
         String valorString = String.format("%.2f", estoque.getSaldo());
         saldoLabel.setText("R$ " + valorString);
         diasNegativos.setText(dia.getDiasNegativos().toString());
+        clientesDia.setText(Dia.getInstanceDia().getClientesDia().toString());
     }
 
     /**
@@ -179,6 +182,11 @@ public class MenuController implements Initializable{
         Double saldoLoja = Estoque.getInstance().getSaldo();
         
         Double aluguel = Math.log(diasJogados) * 100 + 0.2 * saldoLoja;
+
+        // Checa equipamentos.
+        if( EquipamentosLoja.verificaGeladeira() ){
+            aluguel += EquipamentosLoja.geladeiraAluguel();
+        }
 
         Estoque.getInstance().setSaldo( saldoLoja - aluguel );
     }
