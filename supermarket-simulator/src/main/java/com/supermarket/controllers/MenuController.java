@@ -35,6 +35,7 @@ public class MenuController implements Initializable{
 
     private Estoque estoque = Estoque.getInstance();
     private Dia dia = Dia.getInstanceDia();
+    private Boolean temGeladeira = false;
 
     @FXML
     public void handleVenderButton(ActionEvent event) throws Exception {
@@ -99,6 +100,10 @@ public class MenuController implements Initializable{
         Dia.getInstanceDia().passaDia();
         atualizaPrecosInflacao();
         Integer dia = Dia.getInstanceDia().getDiasJogados();
+        /**
+         * Aqui temos a função que verifica o dia do pagamento. No caso queremos
+         * dias divisíveis por 7.
+         */
         if( dia % 7 == 0 && dia != 0 ){
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("DIA DO PAGAMENTO.");
@@ -152,6 +157,7 @@ public class MenuController implements Initializable{
     private void pagarAluguel(){
         Integer diasJogados = Dia.getInstanceDia().getDiasJogados();
         Double saldoLoja = Estoque.getInstance().getSaldo();
+        
         Double aluguel = Math.log(diasJogados) * 100 + 0.2 * saldoLoja;
 
         Estoque.getInstance().setSaldo( saldoLoja - aluguel );

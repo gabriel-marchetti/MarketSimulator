@@ -1,0 +1,27 @@
+<Produtos>
+    <Produto>
+        <nome>Feijao</nome>
+        <custo>2.50</custo>
+        <inflacaoMediaProduto> 3.5 </inflacaoMediaProduto> 
+    </Produto>
+    <Produto>
+        <nome>Arroz</nome>
+        <custo>3.50</custo>
+        <inflacaoMediaProduto> 2.5 </inflacaoMediaProduto>
+    </Produto>
+    <Produto>
+        <nome>Carne</nome>
+        <custo>10.50</custo>
+        <inflacaoMediaProduto> 5.5 </inflacaoMediaProduto>
+    </Produto>
+    <Produto>
+        <nome>Leite</nome>
+        <custo>3.50</custo>
+        <inflacaoMediaProduto> 1.5 </inflacaoMediaProduto>
+    </Produto>
+    <Produto>
+        <nome>Macarrao</nome>
+        <custo>2.50</custo>
+        <inflacaoMediaProduto> 2.5 </inflacaoMediaProduto>
+    </Produto>
+</Produtos>
