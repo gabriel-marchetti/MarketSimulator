@@ -145,8 +145,6 @@ public class VendaController implements Initializable {
 
     private void calculaValorPago() {
         Random random = new Random();
-        
-
         valorPago = random.nextDouble() * 30 + totalVenda;
     }
 
