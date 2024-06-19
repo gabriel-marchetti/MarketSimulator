@@ -124,26 +124,26 @@ public class MenuController implements Initializable{
                 String jacquin_path = "file:supermarket-simulator/src/main/images/jacquin.jpg";
                 // Image image = new Image(getClass().getResource(jacquin_path).toExternalForm());
                 Image image = new Image(jacquin_path);
-            // Criar um ImageView com a imagem
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(100);
-            imageView.setFitHeight(100);
+                // Criar um ImageView com a imagem
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
 
-            // Criar um alerta
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("INSPETOR CHEGOU!");
-            alert.setHeaderText(null);
-            alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
-            alert.setGraphic(imageView);
-            alert.showAndWait();
-            if (temGeladeira.equals(false)) {
-                alert.setTitle("DONDE ESTÁ LA FREEZER?");
+                // Criar um alerta
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("INSPETOR CHEGOU!");
                 alert.setHeaderText(null);
-                alert.setContentText("ÉS LA VERGOIN DE LA PROFISSIÓN!");
+                alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
+                alert.setGraphic(imageView);
                 alert.showAndWait();
-                Estoque.getInstance().pagar(503.0);
+                if (temGeladeira.equals(false)) {
+                    alert.setTitle("DONDE ESTÁ LA FREEZER?");
+                    alert.setHeaderText(null);
+                    alert.setContentText("ÉS LA VERGOIN DE LA PROFISSIÓN!");
+                    alert.showAndWait();
+                    Estoque.getInstance().pagar(503.0);
+                }
             }
-        }
             catch( NullPointerException e ){
                 System.out.println("Erro ao criar alerta do Jacquin:");
                 e.printStackTrace();
