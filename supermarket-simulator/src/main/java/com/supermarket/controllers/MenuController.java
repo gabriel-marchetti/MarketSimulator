@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.supermarket.models.Dia;
 import com.supermarket.models.EstadoJogo;
 import com.supermarket.models.Estoque;
+import com.supermarket.models.Inspetor;
 import com.supermarket.models.Produto;
 
 import javafx.event.ActionEvent;
@@ -112,6 +113,25 @@ public class MenuController implements Initializable{
             alert.showAndWait();
             pagarAluguel();
         }
+         /**
+         * Aqui verificaremos se neste dia haverá inspeção de Eric Jackin
+         */
+        if (Inspetor.temInspecao()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("INSPETOR CHEGOU!");
+            alert.setHeaderText(null);
+            alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
+            alert.showAndWait();
+            if (temGeladeira.equals(false)) {
+                alert.setTitle("DONDE ESTÁ LA FREEZER?");
+                alert.setHeaderText(null);
+                alert.setContentText("ÉS LA VERGOIN DE LA PROFISSIÓN!");
+                alert.showAndWait();
+                Estoque.getInstance().pagar(503.0);
+            }
+        }
+
+
         /* 
         * TO-DO: Precisamos adicionas o método que reseta o jogo caso o 
         * jogador perca.

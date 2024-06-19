@@ -109,4 +109,8 @@ public class Estoque implements Improvable {
         }
     }
 
+    public void pagar(double divida) {
+        this.saldo -= divida;
+    }
+
 }
