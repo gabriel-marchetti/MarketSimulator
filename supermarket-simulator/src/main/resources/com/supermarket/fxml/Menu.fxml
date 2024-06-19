@@ -41,10 +41,13 @@
                </font>
             </Label>
             <Label fx:id="diasNegativos" layoutX="130.0" layoutY="93.0" prefHeight="16.0" prefWidth="64.0" />
-            <Label layoutX="25.0" layoutY="145.0" text="CLIIENTES:" />
+            <Label layoutX="25.0" layoutY="145.0" text="CLIENTES:" />
             <Label fx:id="clientesDia" layoutX="106.0" layoutY="145.0" prefHeight="16.0" prefWidth="77.0" />
+            <Label layoutX="25.0" layoutY="161.0" text="MAX CLIENTES:" />
+            <Label fx:id="maxClientesLabel" layoutX="130.0" layoutY="161.0" prefHeight="16.0" prefWidth="64.0" />
          </children>
       </Pane>
       <Button layoutX="127.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleMelhoriasButton" text="Melhorias" />
+      <Button fx:id="estrategiaButton" layoutX="351.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleEstrategiaSelecionada" prefHeight="24.0" prefWidth="190.0" text="Aumentar Marketing" />
    </children>
 </Pane>

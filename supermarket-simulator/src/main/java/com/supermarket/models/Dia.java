@@ -9,11 +9,13 @@ public class Dia {
     private Integer diasJogados;
     private Integer diasNegativos;
     private Integer numeroClientesDia;
+    private Integer numeroMaxClientesDia;
 
     private Dia(){
         diasJogados = 0;
         diasNegativos = 0;
         numeroClientesDia = 20;
+        numeroMaxClientesDia = 40;
         inflacao = sorteiaInflacao();
     }
 
@@ -75,8 +77,8 @@ public class Dia {
         }
 
         Integer numClientes = (int) Math.round(taxaPorcentual * 20.0);
-        if( numClientes > 40 ){
-            numClientes = 40;
+        if( numClientes > numeroMaxClientesDia ){
+            numClientes = numeroMaxClientesDia;
         }
 
         return numClientes;
@@ -120,5 +122,13 @@ public class Dia {
 
     public Integer getClientesDia( ){
         return this.numeroClientesDia;
+    }
+
+    public void setClienteMaxDia( Integer numeroMaxClientesDia ){
+        this.numeroMaxClientesDia = numeroMaxClientesDia;
+    }
+
+    public Integer getClienteMaxDia(){
+        return this.numeroMaxClientesDia;
     }
 }
