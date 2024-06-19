@@ -22,6 +22,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 public class MenuController implements Initializable{
@@ -117,10 +119,22 @@ public class MenuController implements Initializable{
          * Aqui verificaremos se neste dia haverá inspeção de Eric Jackin
          */
         if (Inspetor.temInspecao()) {
+            // Carregar a imagem a partir do classpath
+            try{
+                String jacquin_path = "file:supermarket-simulator/src/main/images/jacquin.jpg";
+                // Image image = new Image(getClass().getResource(jacquin_path).toExternalForm());
+                Image image = new Image(jacquin_path);
+            // Criar um ImageView com a imagem
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+
+            // Criar um alerta
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("INSPETOR CHEGOU!");
             alert.setHeaderText(null);
             alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
+            alert.setGraphic(imageView);
             alert.showAndWait();
             if (temGeladeira.equals(false)) {
                 alert.setTitle("DONDE ESTÁ LA FREEZER?");
@@ -130,7 +144,13 @@ public class MenuController implements Initializable{
                 Estoque.getInstance().pagar(503.0);
             }
         }
+            catch( NullPointerException e ){
+                System.out.println("Erro ao criar alerta do Jacquin:");
+                e.printStackTrace();
+            }
 
+        }
+            
 
         /* 
         * TO-DO: Precisamos adicionas o método que reseta o jogo caso o 
