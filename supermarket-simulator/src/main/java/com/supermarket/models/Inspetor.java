@@ -11,7 +11,7 @@ public class Inspetor {
     public static Boolean temInspecao() {
         Random random = new Random();
         // Gera um número inteiro entre 0 e 30
-        int chance = random.nextInt(4);
+        int chance = random.nextInt(30);
         // Se o número gerado for 7, haverá inspeção!
         return chance == 3;
     }

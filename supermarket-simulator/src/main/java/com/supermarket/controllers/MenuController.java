@@ -131,7 +131,7 @@ public class MenuController implements Initializable{
 
                 // Criar um alerta
                 Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("INSPETOR CHEGOU!");
+                alert.setTitle("VIGILÂNCIA SANITÁRIA CHEGOU!");
                 alert.setHeaderText(null);
                 alert.setContentText("Vou verificar a freezer...");
                 alert.setGraphic(imageView1);
