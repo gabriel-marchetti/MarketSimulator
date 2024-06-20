@@ -131,7 +131,7 @@ public class MenuController implements Initializable{
 
                 // Criar um alerta
                 Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("INSPETOR CHEGOU!");
+                alert.setTitle("VIGILÂNCIA SANITÁRIA CHEGOU!");
                 alert.setHeaderText(null);
                 alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
                 alert.setGraphic(imageView);
