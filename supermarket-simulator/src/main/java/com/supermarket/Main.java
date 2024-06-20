@@ -39,7 +39,7 @@ public class Main extends Application {
         estoque.setCapacidadeMaxima(20);
         
         LerProdutos leitura = new LerProdutos();
-        leitura.LerArquivo(estoque, "produtos.xml");
+        leitura.LerArquivo(estoque, "produtos.xml");    
 
         
         try{

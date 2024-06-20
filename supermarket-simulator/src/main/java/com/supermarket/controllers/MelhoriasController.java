@@ -1,10 +1,10 @@
 package com.supermarket.controllers;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.supermarket.models.EquipamentosLoja;
 import com.supermarket.models.Estoque;
 
 import javafx.event.ActionEvent;
@@ -13,8 +13,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class MelhoriasController implements Initializable {
@@ -52,13 +54,24 @@ public class MelhoriasController implements Initializable {
         atualizaLabels();
     }
 
+    @FXML
+    private void handleComprarGeladeira(ActionEvent event){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setHeaderText("Parabéns pela aquisição.");
+        alert.setContentText("Você comprou uma geladeira");
+        alert.showAndWait();
+        EquipamentosLoja.compraGeladeira();
+        atualizaLabels();
+    }
+
     public void initialize(URL url, ResourceBundle rb){
         atualizaLabels();
     }
 
     public void atualizaLabels(){
         String saldoTxt = new String();
-        saldoTxt = "R$ " + Estoque.getInstance().getSaldo().toString();
+        String saldoTxtFormated = String.format("%.2f", Estoque.getInstance().getSaldo());
+        saldoTxt = "R$ " + saldoTxtFormated;
         saldoAtual.setText(saldoTxt);
         estoqueAtual.setText(Estoque.getInstance().getQuantidadeProdutos().toString());
         limiteEstoque.setText(Estoque.getInstance().getCapacidadeMaxima().toString());

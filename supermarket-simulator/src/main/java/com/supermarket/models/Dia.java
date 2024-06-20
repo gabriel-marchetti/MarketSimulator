@@ -1,5 +1,6 @@
 package com.supermarket.models;
 
+import java.util.List;
 import java.util.Random;
 
 public class Dia {
@@ -7,10 +8,14 @@ public class Dia {
     private Double inflacao;
     private Integer diasJogados;
     private Integer diasNegativos;
+    private Integer numeroClientesDia;
+    private Integer numeroMaxClientesDia;
 
     private Dia(){
         diasJogados = 0;
         diasNegativos = 0;
+        numeroClientesDia = 20;
+        numeroMaxClientesDia = 40;
         inflacao = sorteiaInflacao();
     }
 
@@ -24,6 +29,7 @@ public class Dia {
     public void resetDia(){
         this.diasJogados = 0;
         this.diasNegativos = 0;
+        this.numeroClientesDia = 20;
     }
 
     /**
@@ -54,6 +60,28 @@ public class Dia {
     public void passaDia(){
         this.diasJogados = this.diasJogados + 1;
         this.inflacao = sorteiaInflacao();
+        this.numeroClientesDia = sorteiaNumeroClientes();
+    }
+
+    /*
+     * Irá sortear o número de clientes do dia baseado nos preços. Aqui temos
+     * uma base de clientes do dia sendo 20, contudo dado que os preços são bons
+     * os consumidores irão à loja. Entretanto temos um limite máximo de clientes
+     * na loja.
+     */
+    public Integer sorteiaNumeroClientes(){
+        List<Produto> produtos = Estoque.getInstance().getProdutos();
+        Double taxaPorcentual = 1.0;
+        for( Produto produto : produtos ){
+            taxaPorcentual *= produto.getPrecoSugerido() / produto.getPrecoVenda();
+        }
+
+        Integer numClientes = (int) Math.round(taxaPorcentual * 20.0);
+        if( numClientes > numeroMaxClientesDia ){
+            numClientes = numeroMaxClientesDia;
+        }
+
+        return numClientes;
     }
 
     /*
@@ -90,5 +118,17 @@ public class Dia {
 
     public void setDiasJogados(Integer diasJogados) {
         this.diasJogados = diasJogados;
+    }
+
+    public Integer getClientesDia( ){
+        return this.numeroClientesDia;
+    }
+
+    public void setClienteMaxDia( Integer numeroMaxClientesDia ){
+        this.numeroMaxClientesDia = numeroMaxClientesDia;
+    }
+
+    public Integer getClienteMaxDia(){
+        return this.numeroMaxClientesDia;
     }
 }

@@ -1,15 +1,25 @@
 package com.supermarket.controllers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.channels.SelectableChannel;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.supermarket.interfaces.DefaultMarketing;
+import com.supermarket.interfaces.MarketingStrategy;
+import com.supermarket.interfaces.MoreMarketing;
 import com.supermarket.models.Dia;
+import com.supermarket.models.EquipamentosLoja;
 import com.supermarket.models.EstadoJogo;
 import com.supermarket.models.Estoque;
 import com.supermarket.models.Inspetor;
 import com.supermarket.models.Produto;
+import com.supermarket.models.SelectedStrategy;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,10 +45,19 @@ public class MenuController implements Initializable{
     private Label diasNegativos;
     @FXML
     private Button passarDiaButton;
+    @FXML
+    private Label clientesDia;
+    @FXML
+    private Label estrategiaSelecionadaLabel;
+    @FXML
+    private Label maxClientesLabel;
+    @FXML
+    private Button estrategiaButton;
+
+    SelectedStrategy estrategiaSelecionada;
 
     private Estoque estoque = Estoque.getInstance();
     private Dia dia = Dia.getInstanceDia();
-    private Boolean temGeladeira = false;
 
     @FXML
     public void handleVenderButton(ActionEvent event) throws Exception {
@@ -98,6 +117,27 @@ public class MenuController implements Initializable{
     }
 
     @FXML
+    public void handleEstrategiaSelecionada(ActionEvent event){
+        // System.out.println(estrategiaSelecionada.getStrategy().toString());
+        if( estrategiaSelecionada.getStrategy() instanceof MoreMarketing ){
+            estrategiaButton.setText("Aumentar Marketing");
+            DefaultMarketing defaultStrategy = new DefaultMarketing();
+            estrategiaSelecionada.setStrategy(defaultStrategy);
+        }
+        else if( estrategiaSelecionada.getStrategy() instanceof DefaultMarketing ){
+            estrategiaButton.setText("Parar com marketing");
+            MoreMarketing moreStrategy = new MoreMarketing();
+            estrategiaSelecionada.setStrategy(moreStrategy);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Mudança de estratégia");
+            alert.setHeaderText("Você terá que pagar diariamente devido à mudança");
+        }
+
+        estrategiaSelecionada.getStrategy().applyStrategyType();
+        atualizaLabelStatus();
+    }
+
+    @FXML
     public void passarDiaAction( ActionEvent event ) throws Exception{
         EstadoJogo estadoJogo;
         Dia.getInstanceDia().passaDia();
@@ -115,6 +155,7 @@ public class MenuController implements Initializable{
             alert.showAndWait();
             pagarAluguel();
         }
+        pagaBonusEstrategia();
          /**
          * Aqui verificaremos se neste dia haverá inspeção de Eric Jackin
          */
@@ -136,7 +177,7 @@ public class MenuController implements Initializable{
                 alert.setContentText("Vou verificar a freezer...");
                 alert.setGraphic(imageView1);
                 alert.showAndWait();
-                if (temGeladeira.equals(false) ) {
+                if ( ! EquipamentosLoja.verificaGeladeira() ) {
                     String vergoin = "file:vergoin.jpg";
                     Image image2 = new Image(vergoin);
                     ImageView imageView2 = new ImageView(image2);
@@ -164,6 +205,9 @@ public class MenuController implements Initializable{
         */
         estadoJogo = verificaPerdeu();
         if( estadoJogo == EstadoJogo.PERDEU ){
+            String path = "Record.txt";
+            String record = "SUA PONTUACAO: " + Dia.getInstanceDia().getDiasJogados().toString();
+            adicionarRegistro(path, record);
             resetJogo();
         }
 
@@ -180,6 +224,11 @@ public class MenuController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resources){
+        if( estrategiaSelecionada == null ){
+            estrategiaSelecionada = new SelectedStrategy();
+            MarketingStrategy tipoEstrategia = new DefaultMarketing();
+            estrategiaSelecionada.setStrategy(tipoEstrategia);
+        }
         atualizaLabelStatus();
     }
 
@@ -188,6 +237,8 @@ public class MenuController implements Initializable{
         String valorString = String.format("%.2f", estoque.getSaldo());
         saldoLabel.setText("R$ " + valorString);
         diasNegativos.setText(dia.getDiasNegativos().toString());
+        clientesDia.setText(Dia.getInstanceDia().getClientesDia().toString());
+        maxClientesLabel.setText(Dia.getInstanceDia().getClienteMaxDia().toString());
     }
 
     /**
@@ -206,7 +257,19 @@ public class MenuController implements Initializable{
         
         Double aluguel = Math.log(diasJogados) * 100 + 0.2 * saldoLoja;
 
+        // Checa equipamentos.
+        if( EquipamentosLoja.verificaGeladeira() ){
+            aluguel += EquipamentosLoja.geladeiraAluguel();
+        }
+
         Estoque.getInstance().setSaldo( saldoLoja - aluguel );
+    }
+
+
+    public void pagaBonusEstrategia(){
+        if( estrategiaSelecionada.getStrategy() instanceof MoreMarketing ){
+            Estoque.getInstance().pagar(20.0);
+        }
     }
 
     /**
@@ -239,7 +302,7 @@ public class MenuController implements Initializable{
     }
 
     /**
-     * 
+     * Função resetJogo para caso o jogador cumpra a condição de perda.
      */
     private void resetJogo(){
         Dia.getInstanceDia().resetDia();
@@ -249,6 +312,33 @@ public class MenuController implements Initializable{
         alert.setHeaderText(null);
         alert.setContentText("Seu supermercado faliu, recomece o jogo.");
         alert.showAndWait();
+    }
+
+    public static void adicionarRegistro(String path, String text){
+        // Verifica se o arquivo já existe
+        File arquivo = new File(path);
+
+        // Se o arquivo não existir, cria um novo arquivo
+        if (!arquivo.exists()) {
+            try{
+                arquivo.createNewFile();
+                System.out.println("Arquivo criado: " + path);    
+            }
+            catch( Exception e ){
+                e.printStackTrace();
+            }
+        }
+
+        try (FileWriter fw = new FileWriter(path, true); // true para append
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            
+            out.println(text); // Escreve a linha no arquivo
+            System.out.println("Linha adicionada com sucesso.");
+
+        } catch (IOException e) {
+            System.err.println("Erro ao adicionar linha no arquivo: " + e.getMessage());
+        }
     }
 
 }
