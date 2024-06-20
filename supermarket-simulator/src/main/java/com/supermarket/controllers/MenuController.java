@@ -121,25 +121,31 @@ public class MenuController implements Initializable{
         if (Inspetor.temInspecao()) {
             // Carregar a imagem a partir do classpath
             try{
-                String jacquin_path = "file:supermarket-simulator/src/main/images/jacquin.jpg";
+                String jacquin_path = "file:jacquin.jpg";
                 // Image image = new Image(getClass().getResource(jacquin_path).toExternalForm());
-                Image image = new Image(jacquin_path);
+                Image image1 = new Image(jacquin_path);
                 // Criar um ImageView com a imagem
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(100);
-                imageView.setFitHeight(100);
+                ImageView imageView1 = new ImageView(image1);
+                imageView1.setFitWidth(300);
+                imageView1.setFitHeight(300);
 
                 // Criar um alerta
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("INSPETOR CHEGOU!");
                 alert.setHeaderText(null);
-                alert.setContentText("ÉRICK JACQUIN: BAMOS BER LAS FREEZERS");
-                alert.setGraphic(imageView);
+                alert.setContentText("Vou verificar a freezer...");
+                alert.setGraphic(imageView1);
                 alert.showAndWait();
-                if (temGeladeira.equals(false)) {
-                    alert.setTitle("DONDE ESTÁ LA FREEZER?");
+                if (temGeladeira.equals(false) ) {
+                    String vergoin = "file:vergoin.jpg";
+                    Image image2 = new Image(vergoin);
+                    ImageView imageView2 = new ImageView(image2);
+                    imageView2.setFitWidth(300);
+                    imageView2.setFitHeight(300);
+                    alert.setTitle("O inspetor encontrou uma anomalia");
                     alert.setHeaderText(null);
-                    alert.setContentText("ÉS LA VERGOIN DE LA PROFISSIÓN!");
+                    alert.setContentText("ONDE ESTÁ A FREEZER?\nÉ O VERGOIN DO PROFISSIÓN!");
+                    alert.setGraphic(imageView2);
                     alert.showAndWait();
                     Estoque.getInstance().pagar(503.0);
                 }

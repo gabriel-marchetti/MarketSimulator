@@ -29,7 +29,7 @@ public class Main extends Application {
         } catch( NullPointerException fileException ){
             System.out.println("Não achei TelaInicial.fxml");
         } catch( Exception e ){
-            e.getStackTrace();
+            e.printStackTrace();
         }
         
     }
