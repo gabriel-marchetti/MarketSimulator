@@ -70,7 +70,8 @@ public class MelhoriasController implements Initializable {
 
     public void atualizaLabels(){
         String saldoTxt = new String();
-        saldoTxt = "R$ " + Estoque.getInstance().getSaldo().toString();
+        String saldoTxtFormated = String.format("%.2f", Estoque.getInstance().getSaldo());
+        saldoTxt = "R$ " + saldoTxtFormated;
         saldoAtual.setText(saldoTxt);
         estoqueAtual.setText(Estoque.getInstance().getQuantidadeProdutos().toString());
         limiteEstoque.setText(Estoque.getInstance().getCapacidadeMaxima().toString());
