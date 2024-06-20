@@ -1,6 +1,10 @@
 package com.supermarket.controllers;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.channels.SelectableChannel;
 import java.util.List;
@@ -175,6 +179,9 @@ public class MenuController implements Initializable{
         */
         estadoJogo = verificaPerdeu();
         if( estadoJogo == EstadoJogo.PERDEU ){
+            String path = "Record.txt";
+            String record = "SUA PONTUACAO: " + Dia.getInstanceDia().getDiasJogados().toString();
+            adicionarRegistro(path, record);
             resetJogo();
         }
 
@@ -279,6 +286,33 @@ public class MenuController implements Initializable{
         alert.setHeaderText(null);
         alert.setContentText("Seu supermercado faliu, recomece o jogo.");
         alert.showAndWait();
+    }
+
+    public static void adicionarRegistro(String path, String text){
+        // Verifica se o arquivo já existe
+        File arquivo = new File(path);
+
+        // Se o arquivo não existir, cria um novo arquivo
+        if (!arquivo.exists()) {
+            try{
+                arquivo.createNewFile();
+                System.out.println("Arquivo criado: " + path);    
+            }
+            catch( Exception e ){
+                e.printStackTrace();
+            }
+        }
+
+        try (FileWriter fw = new FileWriter(path, true); // true para append
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            
+            out.println(text); // Escreve a linha no arquivo
+            System.out.println("Linha adicionada com sucesso.");
+
+        } catch (IOException e) {
+            System.err.println("Erro ao adicionar linha no arquivo: " + e.getMessage());
+        }
     }
 
 }
